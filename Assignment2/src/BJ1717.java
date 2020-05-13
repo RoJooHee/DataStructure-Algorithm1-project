@@ -15,7 +15,7 @@ class UnionFind{
 	Node[] set;
 	public UnionFind(Node[] a) {set=a;}
 
-		public int Find(int s) { // 루트노드 찾기
+		public int Find(int s) { //루트노드 찾기
 			if(set[s].getParent()==s) return s; //s의  부모노드가 s이면 자기자신이 루트노드이므로 s 리턴
 			int r = Find(set[s].getParent()); //s의 부모노드를 따라서 Find 재귀호출 해서, 위의 조건 만족하게 되는 노드를 루트노드 r로 만듦
 			set[s].setParent(r); //s의 부모노드를 r로 설정함(경로압축)
