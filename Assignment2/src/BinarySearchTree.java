@@ -28,7 +28,7 @@ class BinaryTree<E extends Comparable<E>> {
 		if (r == null) return;
 		InTrav(r.getLeft());
 		System.out.println(r.get());
-		InTrav(r.getRight()); }
+		InTrav(r.getRight()); }	
 	
 	// 삽입
 	public void Insert(E newItem) {root = Insert(root, newItem);}
@@ -96,23 +96,24 @@ class BinaryTree<E extends Comparable<E>> {
 	public void Com(E item1, E item2) {Com(root, item1, item2);}
 	public void Com(Node<E> r, E item1, E item2) {
 		if (r==null) return;
-		int t = item1.compareTo(r.get()); //root와 a를 비교
-		int v = item2.compareTo(r.get()); //root와 b를 비교
-		if (t<0) Com(r.getLeft(), item1, item2); //만약 a<root이면 왼쪽으로 감
-		if (t>=0) { //그러다가 a>=root가 되면
-			System.out.println(r.get()); //그 r에 해당하는 노드를 출력하고
-			if (v>=0) Com1(r.getRight(), item1, item2); } //b<=root이면 r을 오른쪽으로 이동하고 Com1함수 출력
+		int t = item1.compareTo(r.get()); //루트노드부터 하여 현재 노드와 a를 비교
+		if(t<0) Com(r.getLeft(), item1, item2); //a가 더 작으면 왼쪽으로 옮김
+		if(t>0) Com(r.getRight(), item1, item2); //a가 더 크면 오른쪽으로 옮김
+		if(t==0) {  //현재노드와 a가 같으면 순회를 멈추고 그 노드부터 중위순회를 시작하도록 함
+			InTrav1(r, item2);
+			return;}
 		}
-		//t>=0이어서 오른쪽으로 이동하게되면 다시 t<0이 되는데, 그러면 또다시 왼쪽노드로 가야해서, Com1로 오른쪽으로 가는 함수 만듦
 	
-	public void Com1(Node<E> r, E item1, E item2) {
-		if (r==null) return;
-		int v = item2.compareTo(r.get()); //root와 b를 비교
-		if (v>=0) { //만약 b>=root이면
-			System.out.println(r.get()); //그 r에 해당하는 노드를 출력하고
-			Com1(r.getRight(), item1, item2); } //r을 오른쪽으로 이동하고 다시 호출
+	public void InTrav1(Node<E> r, E item2) { //Com의 특정 조건 만족하면 중위순회하도록 함
+		if (r == null) return;
+		int v = item2.compareTo(r.get()); 
+		InTrav(r.getLeft()); 
+		if(v<0) return; //만약 현재노드가 b보다 커지게 되면 중위순회를 멈추게 함.
+		System.out.println(r.get());
+		InTrav(r.getRight());
 		}
 }
+
 public class BinarySearchTree {
 	public static void main(String[] args) throws Exception {
 		BinaryTree<String> tree = new BinaryTree<String>();
@@ -135,7 +136,8 @@ public class BinarySearchTree {
 				String x = s.next();
 				String res = tree.Find(x);
 				if (res != null) System.out.println("true");
-				else System.out.println("false"); }
+				else System.out.println("false");
+				tree.InTrav();}
 			
 			else if (cmd.equals("s")) { //a<=항목<=b 순서대로 출력
 				String a=s.next();
