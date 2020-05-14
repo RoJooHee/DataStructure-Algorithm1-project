@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
 import com.sun.source.tree.Tree;
-// ÀÌÁøÆ®¸®ÀÇ ³ëµå¸¦ ¼³Á¤
+// ì´ì§„íŠ¸ë¦¬ì˜ ë…¸ë“œë¥¼ ì„¤ì •
 class Node<E extends Comparable<E>> {
 	private E item;
 	private Node<E> left, right;
-	// »ı¼ºÀÚ
+	// ìƒì„±ì
 	public Node(E newItem, Node<E> l, Node<E> r) {
 		item = newItem; left = l; right = r;}
 	public E get() {return item;}
@@ -15,14 +15,14 @@ class Node<E extends Comparable<E>> {
 	public void setLeft(Node<E> l) {left = l;}
 	public void setRight(Node<E> r) {right = r;}  }
 
-// ÀÌÁøÆ®¸® Å¬·¡½º
+// ì´ì§„íŠ¸ë¦¬ í´ë˜ìŠ¤
 class BinaryTree<E extends Comparable<E>> {
 	private Node<E> root;
-	//	»ı¼ºÀÚ
+	//	ìƒì„±ì
 	public BinaryTree() {root = null;}
 	public Node<E> getRoot() {return root;}
 	
-	// ÁßÀ§¼øÈ¸
+	// ì¤‘ìœ„ìˆœíšŒ
 	public void InTrav() {InTrav(root);}
 	public void InTrav(Node<E> r) {
 		if (r == null) return;
@@ -30,7 +30,7 @@ class BinaryTree<E extends Comparable<E>> {
 		System.out.println(r.get());
 		InTrav(r.getRight()); }	
 	
-	// »ğÀÔ
+	// ì‚½ì…
 	public void Insert(E newItem) {root = Insert(root, newItem);}
 	public Node<E> Insert(Node<E> r, E newItem) {
 		if (r == null)  { r = new Node<E>(newItem, null, null);
@@ -39,54 +39,54 @@ class BinaryTree<E extends Comparable<E>> {
 		else r.setRight(Insert(r.getRight(), newItem));
 		return r; }
 
-	// »èÁ¦¿¬»ê
+	// ì‚­ì œì—°ì‚°
 	public void Remove(E item) {root = Remove(root, item);}
 	public Node<E> Remove(Node<E> r, E item) {
-		if (r == null) return null; // item°ú °°Àº °Í Ã£Áö ¸øÇÑ °æ¿ì
-		int t = item.compareTo(r.get()); // item°ú ³ëµå¸¦ ºñ±³ÇØ¼­ °°À¸¸é »èÁ¦ ´Ù¸£¸é ¼øÈ¸
+		if (r == null) return null; // itemê³¼ ê°™ì€ ê²ƒ ì°¾ì§€ ëª»í•œ ê²½ìš°
+		int t = item.compareTo(r.get()); // itemê³¼ ë…¸ë“œë¥¼ ë¹„êµí•´ì„œ ê°™ìœ¼ë©´ ì‚­ì œ ë‹¤ë¥´ë©´ ìˆœíšŒ
 		if (t == 0) {
-			// case 0 : ÀÚ½ÄÀÌ ÇÏ³ªµµ ¾ø´Â °æ¿ì,
+			// case 0 : ìì‹ì´ í•˜ë‚˜ë„ ì—†ëŠ” ê²½ìš°,
 			if (r.getLeft() == null && r.getRight() == null) return null;
-			// case 1 : ÀÚ½ÄÀÌ ÇÏ³ª ÀÖ´Â °æ¿ì
+			// case 1 : ìì‹ì´ í•˜ë‚˜ ìˆëŠ” ê²½ìš°
 			if (r.getLeft() == null) return r.getRight();
 			if (r.getRight() == null) return r.getLeft();
-			// case 2 : ÀÚ½ÄÀÌ µÎ°³ÀÎ °æ¿ì
+			// case 2 : ìì‹ì´ ë‘ê°œì¸ ê²½ìš°
 			Node<E> min = GetMin(r.getRight());
 			min.setRight(RemoveMin(r.getRight()));
 			return min; }
-		if (t < 0) { //¾ÆÀÌÅÛ<³ëµå
+		if (t < 0) { //ì•„ì´í…œ<ë…¸ë“œ
 			r.setLeft(Remove(r.getLeft(), item));
 			; return r; }
-		else { //¾ÆÀÌÅÛ>³ëµå
+		else { //ì•„ì´í…œ>ë…¸ë“œ
 			r.setRight(Remove(r.getRight(), item));
 			; return r; }
 		}
-		// ÃÖ¼Ú°ª »èÁ¦ÇÏ±â
+		// ìµœì†Ÿê°’ ì‚­ì œí•˜ê¸°
 		public void RemoveMin() {
-			if (root == null) return; // Æ®¸®°¡ ºñ¾îÀÖ´Â °æ¿ì ÃÖ¼Ú°ª ¾øÀ½ 
+			if (root == null) return; // íŠ¸ë¦¬ê°€ ë¹„ì–´ìˆëŠ” ê²½ìš° ìµœì†Ÿê°’ ì—†ìŒ 
 			root = RemoveMin(root); }
 		public Node<E> RemoveMin(Node<E> r) {
 			if (r.getLeft() == null)  return r.getRight();
 			r.setLeft(RemoveMin(r.getLeft()));
 			return r; }
 	
-	// Ã£±â
+	// ì°¾ê¸°
 	public E Find(E item) {return Find(root, item);}
 	public E Find(Node<E> r, E item) {
-		if (r == null) {return null;}  // Ã£´Â µ¥ÀÌÅÍ°¡ ¾ø´Â °æ¿ì
+		if (r == null) {return null;}  // ì°¾ëŠ” ë°ì´í„°ê°€ ì—†ëŠ” ê²½ìš°
 		int t = item.compareTo(r.get());
 		if (t == 0)  return r.get();
 		if (t < 0)  return Find(r.getLeft(), item);
 		return Find(r.getRight(), item); }
-	// ÃÖ¼Ú°ª Ã£±â
+	// ìµœì†Ÿê°’ ì°¾ê¸°
 	public Node<E> GetMin() {
-		if (root == null)  return null; // Æ®¸®°¡ ºñ¾îÀÖ´Â °æ¿ì ÃÖ¼Ú°ª ¾øÀ½
+		if (root == null)  return null; // íŠ¸ë¦¬ê°€ ë¹„ì–´ìˆëŠ” ê²½ìš° ìµœì†Ÿê°’ ì—†ìŒ
 		return GetMin(root); }
 	public Node<E> GetMin(Node<E> r) {
 		if (r.getLeft() == null)  return r;
 		return GetMin(r.getLeft()); }
 	
-	//	Æ®¸®¿¡ ÀÖ´Â ³ëµåÀÇ °¹¼ö
+	//	íŠ¸ë¦¬ì— ìˆëŠ” ë…¸ë“œì˜ ê°¯ìˆ˜
 	public int Size() { return Size(root); }
 	public int Size(Node<E> r) {
 		if(r==null) return 0;
@@ -96,19 +96,19 @@ class BinaryTree<E extends Comparable<E>> {
 	public void Com(E item1, E item2) {Com(root, item1, item2);}
 	public void Com(Node<E> r, E item1, E item2) {
 		if (r==null) return;
-		int t = item1.compareTo(r.get()); //·çÆ®³ëµåºÎÅÍ ÇÏ¿© ÇöÀç ³ëµå¿Í a¸¦ ºñ±³
-		if(t<0) Com(r.getLeft(), item1, item2); //a°¡ ´õ ÀÛÀ¸¸é ¿ŞÂÊÀ¸·Î ¿Å±è
-		if(t>0) Com(r.getRight(), item1, item2); //a°¡ ´õ Å©¸é ¿À¸¥ÂÊÀ¸·Î ¿Å±è
-		if(t==0) {  //ÇöÀç³ëµå¿Í a°¡ °°À¸¸é ¼øÈ¸¸¦ ¸ØÃß°í ±× ³ëµåºÎÅÍ ÁßÀ§¼øÈ¸¸¦ ½ÃÀÛÇÏµµ·Ï ÇÔ
+		int t = item1.compareTo(r.get()); //ë£¨íŠ¸ë…¸ë“œë¶€í„° í•˜ì—¬ í˜„ì¬ ë…¸ë“œì™€ aë¥¼ ë¹„êµ
+		if(t<0) Com(r.getLeft(), item1, item2); //aê°€ ë” ì‘ìœ¼ë©´ ì™¼ìª½ìœ¼ë¡œ ì˜®ê¹€
+		if(t>0) Com(r.getRight(), item1, item2); //aê°€ ë” í¬ë©´ ì˜¤ë¥¸ìª½ìœ¼ë¡œ ì˜®ê¹€
+		if(t==0) {  //í˜„ì¬ë…¸ë“œì™€ aê°€ ê°™ìœ¼ë©´ ìˆœíšŒë¥¼ ë©ˆì¶”ê³  ê·¸ ë…¸ë“œë¶€í„° ì¤‘ìœ„ìˆœíšŒë¥¼ ì‹œì‘í•˜ë„ë¡ í•¨
 			InTrav1(r, item2);
 			return;}
 		}
 	
-	public void InTrav1(Node<E> r, E item2) { //ComÀÇ Æ¯Á¤ Á¶°Ç ¸¸Á·ÇÏ¸é ÁßÀ§¼øÈ¸ÇÏµµ·Ï ÇÔ
+	public void InTrav1(Node<E> r, E item2) { //Comì˜ íŠ¹ì • ì¡°ê±´ ë§Œì¡±í•˜ë©´ ì¤‘ìœ„ìˆœíšŒí•˜ë„ë¡ í•¨
 		if (r == null) return;
 		int v = item2.compareTo(r.get()); 
 		InTrav(r.getLeft()); 
-		if(v<0) return; //¸¸¾à ÇöÀç³ëµå°¡ bº¸´Ù Ä¿Áö°Ô µÇ¸é ÁßÀ§¼øÈ¸¸¦ ¸ØÃß°Ô ÇÔ.
+		if(v<0) return; //ë§Œì•½ í˜„ì¬ë…¸ë“œê°€ bë³´ë‹¤ ì»¤ì§€ê²Œ ë˜ë©´ ì¤‘ìœ„ìˆœíšŒë¥¼ ë©ˆì¶”ê²Œ í•¨.
 		System.out.println(r.get());
 		InTrav(r.getRight());
 		}
@@ -119,27 +119,26 @@ public class BinarySearchTree {
 		BinaryTree<String> tree = new BinaryTree<String>();
 		Scanner s=new Scanner(System.in);
 		while (true) {
-			System.out.print("¸í·É °ª : ");
+			System.out.print("ëª…ë ¹ ê°’ : ");
 			String cmd = s.next();
 
-			if (cmd.equals("q")) break; //ÇÁ·Î±×·¥ Á¾·á
+			if (cmd.equals("q")) break; //í”„ë¡œê·¸ë¨ ì¢…ë£Œ
 			
-			if (cmd.equals("i")) { //Æ®¸®¿¡ Ãß°¡
+			if (cmd.equals("i")) { //íŠ¸ë¦¬ì— ì¶”ê°€
 				String x = s.next();
 				tree.Insert(x); }
 			
-			else if (cmd.equals("d")) { //Ç×¸ñ Á¸ÀçÇÏ´Â °æ¿ì Æ®¸®¿¡¼­ »èÁ¦
+			else if (cmd.equals("d")) { //í•­ëª© ì¡´ì¬í•˜ëŠ” ê²½ìš° íŠ¸ë¦¬ì—ì„œ ì‚­ì œ
 				String x = s.next();
 				tree.Remove(x);}
 			
-			else if (cmd.equals("f")) { //ÀÖ´ÂÁö °Ë»çÇÏ°í ÀÖÀ¸¸é true, ¾øÀ¸¸é false
+			else if (cmd.equals("f")) { //ìˆëŠ”ì§€ ê²€ì‚¬í•˜ê³  ìˆìœ¼ë©´ true, ì—†ìœ¼ë©´ false
 				String x = s.next();
 				String res = tree.Find(x);
 				if (res != null) System.out.println("true");
-				else System.out.println("false");
-				tree.InTrav();}
+				else System.out.println("false");}
 			
-			else if (cmd.equals("s")) { //a<=Ç×¸ñ<=b ¼ø¼­´ë·Î Ãâ·Â
+			else if (cmd.equals("s")) { //a<=í•­ëª©<=b ìˆœì„œëŒ€ë¡œ ì¶œë ¥
 				String a=s.next();
 				String b=s.next();
 				tree.Com(a, b);}
