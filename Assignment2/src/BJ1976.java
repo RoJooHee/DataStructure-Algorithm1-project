@@ -1,4 +1,4 @@
-/*import java.util.*;
+import java.util.*;
 import java.util.Scanner;
 
 class Node {
@@ -69,4 +69,3 @@ public class BJ1976 {
 		else System.out.println("NO");
 	}
 }
-*/
