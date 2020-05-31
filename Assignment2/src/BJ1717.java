@@ -15,50 +15,50 @@ class UnionFind{
 	Node[] set;
 	public UnionFind(Node[] a) {set=a;}
 
-		public int Find(int s) { //·çÆ®³ëµå Ã£±â
-			if(set[s].getParent()==s) return s; //sÀÇ  ºÎ¸ğ³ëµå°¡ sÀÌ¸é ÀÚ±âÀÚ½ÅÀÌ ·çÆ®³ëµåÀÌ¹Ç·Î s ¸®ÅÏ
-			int r = Find(set[s].getParent()); //sÀÇ ºÎ¸ğ³ëµå¸¦ µû¶ó¼­ Find Àç±ÍÈ£Ãâ ÇØ¼­, À§ÀÇ Á¶°Ç ¸¸Á·ÇÏ°Ô µÇ´Â ³ëµå¸¦ ·çÆ®³ëµå r·Î ¸¸µê
-			set[s].setParent(r); //sÀÇ ºÎ¸ğ³ëµå¸¦ r·Î ¼³Á¤ÇÔ(°æ·Î¾ĞÃà)
+		public int Find(int s) { //ë£¨íŠ¸ë…¸ë“œ ì°¾ê¸°
+			if(set[s].getParent()==s) return s; //sì˜  ë¶€ëª¨ë…¸ë“œê°€ sì´ë©´ ìê¸°ìì‹ ì´ ë£¨íŠ¸ë…¸ë“œì´ë¯€ë¡œ s ë¦¬í„´
+			int r = Find(set[s].getParent()); //sì˜ ë¶€ëª¨ë…¸ë“œë¥¼ ë”°ë¼ì„œ Find ì¬ê·€í˜¸ì¶œ í•´ì„œ, ìœ„ì˜ ì¡°ê±´ ë§Œì¡±í•˜ê²Œ ë˜ëŠ” ë…¸ë“œë¥¼ ë£¨íŠ¸ë…¸ë“œ rë¡œ ë§Œë“¦
+			set[s].setParent(r); //sì˜ ë¶€ëª¨ë…¸ë“œë¥¼ rë¡œ ì„¤ì •í•¨(ê²½ë¡œì••ì¶•)
 			return r; }
 
-		public void Union(int a, int b) { //ÇÕÁıÇÕ ¸¸µé±â
-			int ra = Find(a); //a¿Í bÀÇ ·çÆ®³ëµå¸¦ ra, rb·Î ¼³Á¤
+		public void Union(int a, int b) { //í•©ì§‘í•© ë§Œë“¤ê¸°
+			int ra = Find(a); //aì™€ bì˜ ë£¨íŠ¸ë…¸ë“œë¥¼ ra, rbë¡œ ì„¤ì •
 			int rb = Find(b);
-			if( set[ra].getRank() >= set[rb].getRank() ) { //raÀÇ ·©Å©°¡ rbº¸´Ù Å©°Å³ª °°À» °æ¿ì¿¡
-				set[rb].setParent(ra); //rbÀÇ ºÎ¸ğ³ëµå¸¦ ra·Î ÇÔ
-				set[ra].setRank(set[ra].getRank()+set[rb].getRank()); //raÀÇ ·©Å©´Â (raÀÇ ·©Å©+rbÀÇ ·©Å©)
+			if( set[ra].getRank() >= set[rb].getRank() ) { //raì˜ ë­í¬ê°€ rbë³´ë‹¤ í¬ê±°ë‚˜ ê°™ì„ ê²½ìš°ì—
+				set[rb].setParent(ra); //rbì˜ ë¶€ëª¨ë…¸ë“œë¥¼ raë¡œ í•¨
+				set[ra].setRank(set[ra].getRank()+set[rb].getRank()); //raì˜ ë­í¬ëŠ” (raì˜ ë­í¬+rbì˜ ë­í¬)
 			}
-			else { //raÀÇ ·©Å©°¡ rbº¸´Ù ÀÛÀº °æ¿ì
-				set[ra].setParent(rb);  //raÀÇ ºÎ¸ğ³ëµå¸¦ rb·Î ÇÔ
-				set[rb].setRank(set[ra].getRank()+set[rb].getRank()); //rbÀÇ ·©Å©´Â (raÀÇ ·©Å©+rbÀÇ ·©Å©)
+			else { //raì˜ ë­í¬ê°€ rbë³´ë‹¤ ì‘ì€ ê²½ìš°
+				set[ra].setParent(rb);  //raì˜ ë¶€ëª¨ë…¸ë“œë¥¼ rbë¡œ í•¨
+				set[rb].setRank(set[ra].getRank()+set[rb].getRank()); //rbì˜ ë­í¬ëŠ” (raì˜ ë­í¬+rbì˜ ë­í¬)
 			}}
 	}
 
 	public class BJ1717 {
 		public static void main(String[] args) {
 			Scanner s= new Scanner(System.in);
-			int n=s.nextInt(); //ÁıÇÕÀÇ °³¼ö(0~n±îÁö n+1°³ÀÇ ÁıÇÕ)
-			int m=s.nextInt(); //¸í·É ÀÔ·Â È½¼ö
+			int n=s.nextInt(); //ì§‘í•©ì˜ ê°œìˆ˜(0~nê¹Œì§€ n+1ê°œì˜ ì§‘í•©)
+			int m=s.nextInt(); //ëª…ë ¹ ì…ë ¥ íšŸìˆ˜
 			
-			Node[] array = new Node[n+1]; //³ëµåÀÇ °³¼ö´Â  ÃÑ n+1°³
-			for(int i=0; i<n+1; i++) { //0~n±îÁö ¹İº¹
-				array[i] = new Node(); //°¢ array[i]¸¶´Ù ³ëµå·Î »ı¼ºÇÏ°í, °¢ÀÚ ÀÚ½ÅÀ» ºÎ¸ğ³ëµå·Î ¼³Á¤
+			Node[] array = new Node[n+1]; //ë…¸ë“œì˜ ê°œìˆ˜ëŠ”  ì´ n+1ê°œ
+			for(int i=0; i<n+1; i++) { //0~nê¹Œì§€ ë°˜ë³µ
+				array[i] = new Node(); //ê° array[i]ë§ˆë‹¤ ë…¸ë“œë¡œ ìƒì„±í•˜ê³ , ê°ì ìì‹ ì„ ë¶€ëª¨ë…¸ë“œë¡œ ì„¤ì •
 				array[i].setParent(i);
 			}
 			
-			UnionFind set = new UnionFind(array); //setÀÌ¶ó´Â ÀÌ¸§ÀÇ array »ı¼º
+			UnionFind set = new UnionFind(array); //setì´ë¼ëŠ” ì´ë¦„ì˜ array ìƒì„±
 			
 			for (int i=0; i<m; i++) {
-				String order=s.next(); //¸í·É ÀÌ¸§ ÀÔ·Â
+				String order=s.next(); //ëª…ë ¹ ì´ë¦„ ì…ë ¥
 				int a= s.nextInt();
 				int b= s.nextInt();
 				
-				if(order.equals("0")) { //¸¸¾à 0 ÀÔ·ÂÇßÀ» °æ¿ì,
-					set.Union(a, b);  // a¿Í b¸¦ ÇÕÁıÇÕ ¿¬»êÇÔ
+				if(order.equals("0")) { //ë§Œì•½ 0 ì…ë ¥í–ˆì„ ê²½ìš°,
+					set.Union(a, b);  // aì™€ bë¥¼ í•©ì§‘í•© ì—°ì‚°í•¨
 				}
-				else if(order.equals("1")) { //¸¸¾à 1 ÀÔ·ÂÇßÀ» °æ¿ì,
-					if(set.Find(a) == set.Find(b)) System.out.println("YES"); //a¿Í bÀÇ ·çÆ®³ëµå°¡ °°Àº °æ¿ì °°Àº ÁıÇÕ¿¡ Æ÷ÇÔµÈ °ÍÀÌ¹Ç·Î yes Ãâ·Â
-					else System.out.println("NO"); //·çÆ®³ëµå°¡ ´Ù¸£¸é ´Ù¸¥ ÁıÇÕ¿¡ ¼ÓÇÑ °ÍÀÌ¹Ç·Î no Ãâ·Â
+				else if(order.equals("1")) { //ë§Œì•½ 1 ì…ë ¥í–ˆì„ ê²½ìš°,
+					if(set.Find(a) == set.Find(b)) System.out.println("YES"); //aì™€ bì˜ ë£¨íŠ¸ë…¸ë“œê°€ ê°™ì€ ê²½ìš° ê°™ì€ ì§‘í•©ì— í¬í•¨ëœ ê²ƒì´ë¯€ë¡œ yes ì¶œë ¥
+					else System.out.println("NO"); //ë£¨íŠ¸ë…¸ë“œê°€ ë‹¤ë¥´ë©´ ë‹¤ë¥¸ ì§‘í•©ì— ì†í•œ ê²ƒì´ë¯€ë¡œ no ì¶œë ¥
 				}
 			}
 
