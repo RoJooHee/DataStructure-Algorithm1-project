@@ -38,24 +38,38 @@ public class DonggukGameSoft {
 		int[] t = new int[n];
 		for(int i=0;i<n;i++) {
 			data[i] = (int)((Math.random()*9000001)+1000000);
-			t[i] = data[i];
-		}
+			t[i] = data[i];}
+		
+		System.out.println("몇 등이 궁금하신가요? : ");
+		int a = s.nextInt();
+		System.out.println("------작성코드 정렬------");
 		long r = System.currentTimeMillis();
-		System.out.println("작성 알고리즘 1등의 점수 : "+ nth_element(data, n, n)+"이다.");
-		System.out.println("2등 : "+data[n-2]);
-		System.out.println("3등 : "+data[n-3]);
-		System.out.println("4등 : "+data[n-4]);
-		System.out.println("5등 : "+data[n-5]);
+		nth_element(data, n, n);
+		System.out.println("elapsed time : "+(System.currentTimeMillis()-r));
+		
+		if (a==1) System.out.println("1등 : "+ data[n-1]+" / 다이아몬드 2000개");
+		else if (a==2) System.out.println("2등 : "+data[n-2]+" / 다이아몬드 1800개");
+		else if (a==3) System.out.println("3등 : "+data[n-3]+" / 다이아몬드 1600개");
+		else if (a==4) System.out.println("4등 : "+data[n-4]+" / 다이아몬드 1400개");
+		else if (a==5) System.out.println("5등 : "+data[n-5]+" / 다이아몬드 1200개");
+		else if (5<=a && a<=10) System.out.println(data[n-a]+" / 다이아몬드 1000개"); //6~10등
+		else if (a<=n*0.1) System.out.println(data[n-a]+" / 다이아몬드 800개"); //11~상위10%
+		else if (a<=n*0.2) System.out.println(data[n-a]+" / 다이아몬드 600개"); //상위10%~상위20%
+		else if (a<=n*0.3) System.out.println(data[n-a]+" / 다이아몬드 400개"); //상위20%~상위30%
+		else System.out.println(data[n-a]+" / 다이아몬드 200개"); //나머지
+
 		System.out.println("예시1 : "+data[n-9999999]);
 		System.out.println("예시2 : "+data[n-10000000]);
-		//1,2,3,4,5 & 6~10 & 11~상위10% & ~상위20% & ~상위30% & ~나머지
 		//지금은 n번째(제일큰거)찾기 위한 부분만 부분정렬 되어있는 상태
 		//위에 함수코드를 다 필요한 부분들로 정렬하게 만들자
-		System.out.println("elapsed time : "+(System.currentTimeMillis()-r));
+
+		System.out.println("\n------자바 기본정렬------");
 		r = System.currentTimeMillis();
 		Arrays.sort(t);
-		System.out.println("기본정렬  1등의 점수 : "+t[n-1]);
 		System.out.println("elapsed time : "+(System.currentTimeMillis()-r));
+		
+		System.out.println("1등 : "+t[n-1]);
+
 	}
 
 }
