@@ -1,12 +1,12 @@
-//가장 효율성 높은 코드. 평균값을 pivot으로해 절반정도 퀵정렬
+//문제에 따라서 각 경계값에 따라 나눈 코드. 효율성은 조금 떨어짐
 import java.util.Arrays;
 import java.util.Scanner;
-public class DonggukGameSoft {
-	
-	static int quicksort1(int[] data, int f, int p, int num) { //num은 pivot으로 하고싶은 값
-		data[p+1]=num; //num을 pivot으로 설정하도록 맨 마지막에 두기
-		int s = partition1(data, f, p+1); //pivot의 인덱스
-		return s;}
+public class DonggukGameSoft_2 {
+	 //전체에서 pivot값 기준으로 오른쪽(큰값)
+	static int quicksort1(int[] data, int f, int p, int num) {
+		data[p+1]=num;
+		int s = partition1 (data, f, p+1);
+		return s; }
 	
 	static int partition1(int[] data, int f, int p) { //pivot값 임의설정 partition
 		int pivot = data[p]; 
@@ -23,7 +23,7 @@ public class DonggukGameSoft {
 		for (int a = i+1; a <= p; a++) { //pivot은 임의로 설정한 값이므로 하나씩 앞당기며 그 값 삭제
 			data[a-1] = data[a]; }
 		return i; }
-	
+
 	static void quicksort2(int[] data, int f, int p) {
 		if(p <= f) return;
 		int s = partition2(data, f, p);
@@ -72,21 +72,37 @@ public class DonggukGameSoft {
 				sum = sum + (data[i] / 1000000.0); //숫자 크기가 커져서, 랜덤 시작숫자로 나누어서 랜덤데이터 모두 더함
 			}
 			
-			//for(int i=0; i<data.length; i++) {
-			//	if (avg==data[i]) {System.out.println(i+"번째");}}  여러번 테스트해봐도 평균값이면 중간부분. 30%밑으로 안내려감
-			
-			System.out.println("\n------작성코드 정렬------");
+			System.out.println("------작성코드 정렬------");
 			long r = System.currentTimeMillis();
 			int avg = (int)((sum / n) * 1000000.0); //다 더한 랜덤데이터의 평균 구하기
-			//System.out.println("평균값 : " + avg);	
-			int p_avg = quicksort1(data, 0, n-1, avg); //평균을 pivot으로 했을 때 전체 퀵정렬 후 pivot의 인덱스
 
-			quicksort2(data, p_avg, n-1); //평균값 중간 정도부터 부터 1등까지 재귀적 퀵정렬해서 전부 정렬
+			int p_avg = quicksort1(data, 0, n-1, avg); //평균 해당 값을 pivot으로 정렬했을 때의 pivot 인덱스
+			
+			double q30 = (double)((n-1)/10.0*7); //전체에서 상위 30%
+			int num30 = nth_element(data, 0, n-1, (int)(q30+1)); //30%해당 값
+			int p_30=quicksort1(data, p_avg, n-1, num30); //30%해당 값을 pivot으로 정렬했을 때의 pivot 인덱스
+			
+			double q20 = (double)((n-1)/10.0*8); //전체에서 상위 20%
+			int num20 = nth_element(data, 0, n-1, (int)(q20+1)); //20%해당 값
+			int p_20=quicksort1(data, p_30, n-1, num20); //20%해당 값을 pivot으로 정렬했을 때의 pivot 인덱스
+			
+			double q10 = (double)((n-1)/10.0*9); //전체에서 상위 10%
+			int num10 = nth_element(data, 0, n-1, (int)(q10+1)); //10%해당 값
+			int p_10=quicksort1(data, p_20, n-1, num10); //10%해당 값을 pivot으로 정렬했을 때의 pivot 인덱스
+			
+			int num_10th =  nth_element(data, 0, n-1, n-10);
+			int p_10th=quicksort1(data, p_10, n-1, num_10th); //10등 해당 값을 pivot으로 정렬했을 때의 pivot 인덱스
+			
+			int num_6th =  nth_element(data, 0, n-1, n-6);
+			int p_6th=quicksort1(data, p_10th, n-1, num_6th); //10등 해당 값을 pivot으로 정렬했을 때의 pivot 인덱스
+			
+			quicksort2(data, p_6th, n-1); //n에는 불필요한 값 있기 때문
 			
 			System.out.println(a+"등: "+data[n-a]+"점");
 			System.out.println("elapsed time : "+(System.currentTimeMillis()-r));
 			System.out.printf("1~5등 : %d, %d, %d, %d, %d \n", data[n-1], data[n-2], data[n-3], data[n-4], data[n-5]);
 			System.out.printf("6등 : %d, 10등 : %d,  10per : %d,  20per : %d,  30per : %d \n\n", data[n-6], data[n-10], data[(int)(n*0.9)+1], data[(int)(n*0.8)+1], data[(int)(n*0.7)+1]);
+			System.out.println("10~20per 사이 값들 : "+data[(int)(n*0.8)+2]+"  "+data[(int)(n*0.8)+10]);
 			System.out.printf("정렬안한  60per : %d,  90per : %d \n", data[(int)(n*0.4)+1], data[(int)(n*0.1)+1]);
 			
 			System.out.println("\n------자바 기본정렬------");
@@ -97,6 +113,7 @@ public class DonggukGameSoft {
 			System.out.println("elapsed time : "+(System.currentTimeMillis()-r));
 			System.out.printf("1~5등 : %d, %d, %d, %d, %d \n", t[n-1], t[n-2], t[n-3], t[n-4], t[n-5]);
 			System.out.printf("6등 : %d, 10등 : %d,  10per : %d,  20per : %d,  30per : %d \n\n", t[n-6], t[n-10], t[(int)(n*0.9)+1], t[(int)(n*0.8)+1], t[(int)(n*0.7)+1]);
+			System.out.println("10~20per 사이 값들 : "+t[(int)(n*0.8)+2]+"  "+t[(int)(n*0.8)+10]);
 			System.out.printf("기본정렬된  60per : %d,  90per : %d \n", t[(int)(n*0.4)+1], t[(int)(n*0.1)+1]);
 			
 			if (a==1) System.out.println("\n => 다이아몬드 2000개");
