@@ -98,16 +98,13 @@ public class DonggukGameSoft {
 
 			int p_avg2 = quicksort1(data2, 0, n-1, avg); //평균 해당 값을 pivot으로 정렬했을 때의 pivot 인덱스
 			
-			double q30 = (double)(n*0.7); //전체에서 상위 30%
-			int num30 = nth_element(data2, 0, n-1, (int)(q30)+1); //30%해당 값
+			int num30 = nth_element(data2, 0, n-1, (int)(n*0.7)+2); //30%해당 값
 			int p_30=quicksort1(data2, p_avg2, n-1, num30); //30%해당 값을 pivot으로 정렬했을 때의 pivot 인덱스
 			
-			double q20 = (double)(n*0.8); //전체에서 상위 20%
-			int num20 = nth_element(data2, 0, n-1, (int)(q20)+1); //20%해당 값
+			int num20 = nth_element(data2, 0, n-1, (int)(n*0.8)+2); //20%해당 값
 			int p_20=quicksort1(data2, p_30, n-1, num20); //20%해당 값을 pivot으로 정렬했을 때의 pivot 인덱스
 			
-			double q10 = (double)(n*0.9); //전체에서 상위 10%
-			int num10 = nth_element(data2, 0, n-1, (int)(q10)+1); //10%해당 값
+			int num10 = nth_element(data2, 0, n-1, (int)(n*0.9)+2); //10%해당 값
 			int p_10=quicksort1(data2, p_20, n-1, num10); //10%해당 값을 pivot으로 정렬했을 때의 pivot 인덱스
 			
 			int num_10th =  nth_element(data2, 0, n-1, n-10+1);
@@ -139,6 +136,11 @@ public class DonggukGameSoft {
 		
 			
 			for(int i=1; i<=5; i++) {
+				if (data[n-i]==t[n-i] && data2[n-i]==t[n-i]) {System.out.print("/  "+i+"번째 값 동일함  /");}
+				else {System.out.print("/  "+i+"번째 값 다름  /");}
+			}
+			System.out.println();
+			for(int i=6; i<=10; i++) {
 				if (data[n-i]==t[n-i] && data2[n-i]==t[n-i]) {System.out.print("/  "+i+"번째 값 동일함  /");}
 				else {System.out.print("/  "+i+"번째 값 다름  /");}
 			}
