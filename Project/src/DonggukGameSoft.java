@@ -45,6 +45,7 @@ public class DonggukGameSoft {
 		data[i] = pivot;
 		return i; } //pivot으로 나누는 인덱스 반환
 	
+	//선택정렬
 	public static void selection(int[] data, int f, int p) {
 		for(int i=f; i<=p;i++) {
 			int select = i;
@@ -55,17 +56,17 @@ public class DonggukGameSoft {
 			data[select] = t; }
 		}
 	
-	//	data[s..e]에서 k번째로 작은 데이터 찾기 (n-k+1번째로 큰 데이터 찾기)
+	//	data[s..e]에서 n-k+1번째로 큰 데이터 찾기
 	static int nth_element(int[] data, int s, int e, int k) {
-		int p = partition2(data, s, e); //data[s..e]를 피봇값에 의해서 분리한다.
-		if(k<=p-s) return nth_element(data, s, p-1, k); //k가 피봇보다 작은 그룹에 속해있는 경우
-		if(k==p-s+1) return data[p];//k가 피봇인 경우
-		else return nth_element(data, p+1, e, k-p+s-1); } //k가 피봇보다 큰 그룹에 속해있는 경우
+		int p = partition2(data, s, e); 
+		if(k<=p-s) return nth_element(data, s, p-1, k);
+		if(k==p-s+1) return data[p];
+		else return nth_element(data, p+1, e, k-p+s-1); } 
 
 	
 	public static void main(String[] args) {
 		Scanner sc= new Scanner(System.in);
-		System.out.print("사용자 수를 1,000,000 ~ 10,000,000 사이로 입력하세요 : ");
+		System.out.print("사용자 수를 입력하세요 : ");
 		int n = sc.nextInt();
 		
 		System.out.print("몇 등이 궁금하신가요? : ");
@@ -98,11 +99,10 @@ public class DonggukGameSoft {
 		quicksort2(data, p_avg, n-1); //평균값 중간 정도부터 부터 1등까지 재귀적 퀵정렬해서 전부 정렬
 		
 		System.out.println(a+"등: "+data[n-a]+"점");
-		System.out.println("걸린 시간 : "+(System.currentTimeMillis()-r)+"초");
+		System.out.println("걸린 시간 : "+(System.currentTimeMillis()-r)/1000.0f+"초");
 		System.out.printf("1~5등 : %d, %d, %d, %d, %d \n", data[n-1], data[n-2], data[n-3], data[n-4], data[n-5]);
-		System.out.printf("6등 : %d, 10등 : %d,  10per : %d,  20per : %d,  30per : %d \n\n", data[n-6], data[n-10], data[(int)(n*0.9)+1], data[(int)(n*0.8)+1], data[(int)(n*0.7)+1]);
-		System.out.println("10~20per 사이 값들 : "+data[(int)(n*0.8)+2]+"  "+data[(int)(n*0.8)+10]);
-		System.out.printf("정렬안한  60per : %d,  90per : %d \n", data[(int)(n*0.4)+1], data[(int)(n*0.1)+1]);
+		if (n%10==0) System.out.printf("6등 : %d, 10등 : %d,  10per : %d,  20per : %d,  30per : %d \n\n", data[n-6], data[n-10], data[(int)(n*0.9)], data[(int)(n*0.8)], data[(int)(n*0.7)]);
+		else System.out.printf("6등 : %d, 10등 : %d,  10per : %d,  20per : %d,  30per : %d \n\n", data[n-6], data[n-10], data[(int)(n*0.9)+1], data[(int)(n*0.8)+1], data[(int)(n*0.7)+1]);
 		
 		
 		//문제의 조건 충족(경계데이터)
@@ -111,13 +111,19 @@ public class DonggukGameSoft {
 		
 		int p_avg2 = quicksort1(data2, 0, n-1, avg); //평균 해당 값을 pivot으로 정렬했을 때의 pivot 인덱스
 		
-		int num30 = nth_element(data2, 0, n-1, (int)(n*0.7)+2); //30%해당 값(경계데이터) *+2한 이유(원래 위치는+1 & 소수점 절사해서 상위 -%의 경계 데이터 구하기위해 +1)
+		int num30=-1;
+		if (n%10==0) num30 = nth_element(data2, 0, n-1, (int)(n*0.7)+1); //30%해당 값(경계데이터) //총 데이터 개수가 10으로 나뉘는 경우는 10%단위로 퍼센트 계산할 때 절사할 필요가 없어서 (int)변환후 +1해주지 않아도됨.
+		else num30 = nth_element(data2, 0, n-1, (int)(n*0.7)+2); //+2한 이유(원래 위치는+1 & 소수점 절사해서 상위 -%의 경계 데이터 구하기위해 +1)
 		int p_30=quicksort1(data2, p_avg2, n-1, num30); //30%해당 값을 pivot으로 정렬했을 때의 pivot 인덱스
 		
-		int num20 = nth_element(data2, 0, n-1, (int)(n*0.8)+2); //20%해당 값(경계데이터)
+		int num20=-1;
+		if (n%10==0) num20 = nth_element(data2, 0, n-1, (int)(n*0.8)+1); //20%해당 값(경계데이터)
+		else num20 = nth_element(data2, 0, n-1, (int)(n*0.8)+2);
 		int p_20=quicksort1(data2, p_30, n-1, num20); //20%해당 값을 pivot으로 정렬했을 때의 pivot 인덱스
 		
-		int num10 = nth_element(data2, 0, n-1, (int)(n*0.9)+2); //10%해당 값(경계데이터)
+		int num10=-1;
+		if (n%10==0) num10 = nth_element(data2, 0, n-1, (int)(n*0.9)+1);
+		else num10 = nth_element(data2, 0, n-1, (int)(n*0.9)+2); //10%해당 값(경계데이터)
 		int p_10=quicksort1(data2, p_20, n-1, num10); //10%해당 값을 pivot으로 정렬했을 때의 pivot 인덱스
 		
 		int num_10th =  nth_element(data2, 0, n-1, n-10+1); //상위 10등 해당 값
@@ -129,11 +135,10 @@ public class DonggukGameSoft {
 		selection(data2, p_6th, n-1); // 6등부터 1등까지는 전부 재귀호출을 줄이기위해 선택정렬
 		
 		System.out.println(a+"등: "+data2[n-a]+"점");
-		System.out.println("걸린 시간 : "+(System.currentTimeMillis()-r)+"초");
+		System.out.println("걸린 시간 : "+(System.currentTimeMillis()-r)/1000.0f+"초");
 		System.out.printf("1~5등 : %d, %d, %d, %d, %d \n", data2[n-1], data2[n-2], data2[n-3], data2[n-4], data2[n-5]);
-		System.out.printf("6등 : %d, 10등 : %d,  10per : %d,  20per : %d,  30per : %d \n\n", data2[n-6], data2[n-10], data2[(int)(n*0.9)+1], data2[(int)(n*0.8)+1], data2[(int)(n*0.7)+1]);
-		System.out.println("10~20per 사이 값들 : "+data2[(int)(n*0.8)+2]+"  "+data2[(int)(n*0.8)+10]);
-		System.out.printf("정렬안한  60per : %d,  90per : %d \n", data2[(int)(n*0.4)+1], data2[(int)(n*0.1)+1]);
+		if (n%10==0) System.out.printf("6등 : %d, 10등 : %d,  10per : %d,  20per : %d,  30per : %d \n\n", data2[n-6], data2[n-10], data2[(int)(n*0.9)], data2[(int)(n*0.8)], data2[(int)(n*0.7)]);
+		else System.out.printf("6등 : %d, 10등 : %d,  10per : %d,  20per : %d,  30per : %d \n\n", data2[n-6], data2[n-10], data2[(int)(n*0.9)+1], data2[(int)(n*0.8)+1], data2[(int)(n*0.7)+1]);
 			
 		
 		//기본 정렬
@@ -142,11 +147,10 @@ public class DonggukGameSoft {
 		Arrays.sort(t);
 		
 		System.out.println(a+"등: "+t[n-a]+"점");
-		System.out.println("걸린 시간 : "+(System.currentTimeMillis()-r)+"초");
+		System.out.println("걸린 시간 : "+(System.currentTimeMillis()-r)/1000.0f+"초");
 		System.out.printf("1~5등 : %d, %d, %d, %d, %d \n", t[n-1], t[n-2], t[n-3], t[n-4], t[n-5]);
-		System.out.printf("6등 : %d, 10등 : %d,  10per : %d,  20per : %d,  30per : %d \n\n", t[n-6], t[n-10], t[(int)(n*0.9)+1], t[(int)(n*0.8)+1], t[(int)(n*0.7)+1]);
-		System.out.println("10~20per 사이 값들 : "+t[(int)(n*0.8)+2]+"  "+t[(int)(n*0.8)+10]);
-		System.out.printf("기본정렬된  60per : %d,  90per : %d \n\n", t[(int)(n*0.4)+1], t[(int)(n*0.1)+1]);
+		if (n%10==0) System.out.printf("6등 : %d, 10등 : %d,  10per : %d,  20per : %d,  30per : %d \n\n", t[n-6], t[n-10], t[(int)(n*0.9)], t[(int)(n*0.8)], t[(int)(n*0.7)]);
+		else System.out.printf("6등 : %d, 10등 : %d,  10per : %d,  20per : %d,  30per : %d \n\n", t[n-6], t[n-10], t[(int)(n*0.9)+1], t[(int)(n*0.8)+1], t[(int)(n*0.7)+1]);
 	
 		
 		for(int i=1; i<=5; i++) { //1~5등 값
@@ -162,32 +166,48 @@ public class DonggukGameSoft {
 		System.out.println();
 		
 		for(int j=9; j>=1; j--) { //10~90% 값
-			if (data[(int)(n*j*0.1)+1]==t[(int)(n*j*0.1)+1] && data2[(int)(n*j*0.1)+1]==t[(int)(n*j*0.1)+1]) {System.out.print("/  "+(10-j)*10+"% 값 동일함  /");}
-			else {System.out.print("/  "+(10-j)*10+"% 값 다름  /");}
+			if (n%10==0) {
+				if (data[(int)(n*j*0.1)]==t[(int)(n*j*0.1)] && data2[(int)(n*j*0.1)]==t[(int)(n*j*0.1)]) System.out.print("/  "+(10-j)*10+"% 값 동일함  /");
+				else System.out.print("/  "+(10-j)*10+"% 값 다름  /");
+			} else {
+				if (data[(int)(n*j*0.1)+1]==t[(int)(n*j*0.1)+1] && data2[(int)(n*j*0.1)+1]==t[(int)(n*j*0.1)+1]) System.out.print("/  "+(10-j)*10+"% 값 동일함  /");
+				else System.out.print("/  "+(10-j)*10+"% 값 다름  /");
+			}
 		}
-		System.out.println("\n");
-
-		int count = 0;
-		for(int i=(int)(n*0.9)+2; i<(int)(n*0.8)+1; i++) { //10~20%에 속하는 배열값
-				if(data[i]>t[(int)(n*0.8)+1] || data[i]<(int)(n*0.9)+1) count++; //기본정렬의 10,20%경계값에서 벗어나는 것이 있는지
-		}
-		System.out.println("기본정렬의 10,20% 경계값 범위에서 벗어나는  퀵정렬 10~20% 사이의 값의 개수 : "+count +"개");
+		System.out.println();
 		
-		int count2 = 0;
-		for(int i=(int)(n*0.9)+2; i<(int)(n*0.8)+1; i++) { //10~20%에 속하는 배열값
-				if(data2[i]>t[(int)(n*0.8)+1] || data2[i]<(int)(n*0.9)+1) count2++;  //기본정렬의 10,20%경계값에서 벗어나는 것이 있는지
+		if(n%10==0) {
+			int count = 0;
+			for(int i=(int)(n*0.9)-1; i>(int)(n*0.8); i--) { //10~20%에 속하는 배열값
+				if(data[i]<t[(int)(n*0.8)] || data[i]>t[(int)(n*0.9)]) {System.out.print(i); count++;} } //기본정렬의 10,20%경계값에서 벗어나는 것이 있는지
+			System.out.println("\n기본정렬의 10,20% 경계값 범위에서 벗어나는  퀵정렬 10~20% 사이의 값의 개수 : "+count +"개");
+			
+			int count2 = 0;
+			for(int i=(int)(n*0.9)-1; i>(int)(n*0.8); i--) { //10~20%에 속하는 배열값
+				if(data2[i]<t[(int)(n*0.8)] || data2[i]>t[(int)(n*0.9)]) {System.out.print(i); count2++;} }  //기본정렬의 10,20%경계값에서 벗어나는 것이 있는지
+			System.out.println("기본정렬의 10,20% 경계값 범위에서 벗어나는  구간경계값으로 나눈 정렬 10~20% 사이의 값 개수 : "+count2 +"개");
 		}
-		System.out.println("기본정렬의 10,20% 경계값 범위에서 벗어나는  구간경계값으로 나눈 정렬 10~20% 사이의 값 개수 : "+count2 +"개");
+		else {
+			int count = 0;
+			for(int i=(int)(n*0.9); i>(int)(n*0.8)+1; i--) { //10~20%에 속하는 배열값
+				if(data[i]<t[(int)(n*0.8)+1] || data[i]>t[(int)(n*0.9)+1]) System.out.print(i); count++; } //기본정렬의 10,20%경계값에서 벗어나는 것이 있는지
+			System.out.println("\n기본정렬의 10,20% 경계값 범위에서 벗어나는  퀵정렬 10~20% 사이의 값의 개수 : "+count +"개");
+			
+			int count2 = 0;
+			for(int i=(int)(n*0.9); i>(int)(n*0.8)+1; i--) { //10~20%에 속하는 배열값
+				if(data2[i]<t[(int)(n*0.8)+1] || data2[i]>t[(int)(n*0.9)+1]) System.out.print(i); count2++; }  //기본정렬의 10,20%경계값에서 벗어나는 것이 있는지
+			System.out.println("기본정렬의 10,20% 경계값 범위에서 벗어나는  구간경계값으로 나눈 정렬 10~20% 사이의 값 개수 : "+count2 +"개");
+		}
 		
-	if (a==1) System.out.println("\n => 다이아몬드 2000개");
-	else if (a==2) System.out.println("\n => 다이아몬드 1800개");
-	else if (a==3) System.out.println("\n => 다이아몬드 1600개");
-	else if (a==4) System.out.println("\n => 다이아몬드 1400개");
-	else if (a==5) System.out.println("\n => 다이아몬드 1200개");
-	else if (6<=a && a<=10) System.out.println("\n => 다이아몬드 1000개"); //6~10등
-	else if (a<=n*0.1) System.out.println("\n => 다이아몬드 800개"); //11~상위10%
-	else if (a<=n*0.2) System.out.println("\n => 다이아몬드 600개"); //상위10%~상위20%
-	else if (a<=n*0.3) System.out.println("\n => 다이아몬드 400개"); //상위20%~상위30%
-	else System.out.println("\n => 다이아몬드 200개"); //나머지
+		if (a==1) System.out.println("\n => 다이아몬드 2000개");
+		else if (a==2) System.out.println("\n => 다이아몬드 1800개");
+		else if (a==3) System.out.println("\n => 다이아몬드 1600개");
+		else if (a==4) System.out.println("\n => 다이아몬드 1400개");
+		else if (a==5) System.out.println("\n => 다이아몬드 1200개");
+		else if (6<=a && a<=10) System.out.println("\n => 다이아몬드 1000개"); //6~10등
+		else if (a<=n*0.1) System.out.println("\n => 다이아몬드 800개"); //11~상위10%
+		else if (a<=n*0.2) System.out.println("\n => 다이아몬드 600개"); //상위10%~상위20%
+		else if (a<=n*0.3) System.out.println("\n => 다이아몬드 400개"); //상위20%~상위30%
+		else System.out.println("\n => 다이아몬드 200개"); //나머지
 	}
 }
