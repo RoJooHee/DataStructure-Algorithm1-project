@@ -190,12 +190,12 @@ public class DonggukGameSoft {
 		else {
 			int count = 0;
 			for(int i=(int)(n*0.9); i>(int)(n*0.8)+1; i--) { //10~20%에 속하는 배열값
-				if(data[i]<t[(int)(n*0.8)+1] || data[i]>t[(int)(n*0.9)+1]) System.out.print(i); count++; } //기본정렬의 10,20%경계값에서 벗어나는 것이 있는지
+				if(data[i]<t[(int)(n*0.8)+1] || data[i]>t[(int)(n*0.9)+1]) {System.out.print(i); count++;} } //기본정렬의 10,20%경계값에서 벗어나는 것이 있는지
 			System.out.println("\n기본정렬의 10,20% 경계값 범위에서 벗어나는  퀵정렬 10~20% 사이의 값의 개수 : "+count +"개");
 			
 			int count2 = 0;
 			for(int i=(int)(n*0.9); i>(int)(n*0.8)+1; i--) { //10~20%에 속하는 배열값
-				if(data2[i]<t[(int)(n*0.8)+1] || data2[i]>t[(int)(n*0.9)+1]) System.out.print(i); count2++; }  //기본정렬의 10,20%경계값에서 벗어나는 것이 있는지
+				if(data2[i]<t[(int)(n*0.8)+1] || data2[i]>t[(int)(n*0.9)+1]) {System.out.print(i); count2++;} }  //기본정렬의 10,20%경계값에서 벗어나는 것이 있는지
 			System.out.println("기본정렬의 10,20% 경계값 범위에서 벗어나는  구간경계값으로 나눈 정렬 10~20% 사이의 값 개수 : "+count2 +"개");
 		}
 		
